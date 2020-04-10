@@ -5,6 +5,7 @@ import Votes from "./Votes";
 import Details from "./Details";
 import Body from "./Body";
 import VotingSection from "./VotingSection";
+import { SubstrateProvider } from "../runtime";
 
 import "./ProposalDetails.css";
 
@@ -58,11 +59,13 @@ export default function ProposalDetails({
 }: ProposalProps) {
   const { hasVoted = false, value = undefined } = vote || {};
   return (
-    <Container className="ProposalDetails">
-      <Details {...details} />
-      <Body title={title} description={description} params={params} />
-      <VotingSection onVote={onVote} hasVoted={hasVoted} value={value} />
-      <Votes votes={votes} total={totalVotes} />
-    </Container>
+    <SubstrateProvider>
+      <Container className="ProposalDetails">
+        <Details {...details} />
+        <Body title={title} description={description} params={params} />
+        <VotingSection onVote={onVote} hasVoted={hasVoted} value={value} />
+        <Votes votes={votes} total={totalVotes} />
+      </Container>
+    </SubstrateProvider>
   );
 }

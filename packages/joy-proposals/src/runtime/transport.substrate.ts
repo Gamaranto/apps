@@ -10,8 +10,6 @@ export default class SubstrateTransport extends Transport {
 
     if (!api) {
       throw new Error("Cannot create SubstrateTransport: A Substrate API is required");
-    } else if (!api.isApiReady) {
-      throw new Error("Cannot create a SubstrateTransport: The Substrate API is not ready yet.");
     }
 
     this.api = api.api;
@@ -27,5 +25,9 @@ export default class SubstrateTransport extends Transport {
 
   allProposals() {
     return this.engine();
+  }
+
+  vote() {
+    return new Promise(resolve => resolve("ciao"));
   }
 }
