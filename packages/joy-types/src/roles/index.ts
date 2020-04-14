@@ -1,14 +1,16 @@
 import { Struct } from "@polkadot/types/codec";
-import { getTypeRegistry, u32, u128, GenericAccountId } from "@polkadot/types";
-import { BlockNumber, AccountId, Balance } from "@polkadot/types/interfaces";
-import { MemberId, Role } from "./members";
+import { u32, u128, GenericAccountId } from "@polkadot/types";
+import { BlockNumber, Balance } from "@polkadot/types/interfaces";
+import { MemberId, Role } from "../members";
+import { Registry } from "@polkadot/types/types";
 
 // re-export Role
-export { Role } from "./members";
+export { Role } from "../members";
 
 export class Actor extends Struct {
-  constructor(value?: any) {
+  constructor(registry: Registry, value?: any) {
     super(
+      registry,
       {
         member_id: MemberId,
         role: Role,
@@ -27,8 +29,8 @@ export class Actor extends Struct {
     return this.get("role") as Role;
   }
 
-  get account(): AccountId {
-    return this.get("account") as AccountId;
+  get account(): GenericAccountId {
+    return this.get("account") as GenericAccountId;
   }
 
   get joined_at(): BlockNumber {
@@ -36,12 +38,13 @@ export class Actor extends Struct {
   }
 }
 
-export type Request = [AccountId, MemberId, Role, BlockNumber];
+export type Request = [GenericAccountId, MemberId, Role, BlockNumber];
 export type Requests = Array<Request>;
 
 export class RoleParameters extends Struct {
-  constructor(value?: any) {
+  constructor(registry: Registry, value?: any) {
     super(
+      registry,
       {
         min_stake: u128, // Balance,
         min_actors: u32,
@@ -99,16 +102,11 @@ export class RoleParameters extends Struct {
   }
 }
 
-export function registerRolesTypes() {
-  try {
-    const typeRegistry = getTypeRegistry();
-    typeRegistry.register({
-      RoleParameters,
-      Request: "(AccountId, MemberId, Role, BlockNumber)",
-      Requests: "Vec<Request>",
-      Actor
-    });
-  } catch (err) {
-    console.error("Failed to register custom types of roles module", err);
-  }
-}
+const roleTypes = {
+  RoleParameters,
+  Request: "(GenericAccountId, MemberId, Role, BlockNumber)",
+  Requests: "Vec<Request>",
+  Actor
+};
+
+export default roleTypes;
