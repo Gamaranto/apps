@@ -1,8 +1,7 @@
-import { Text, u32, Enum, createType } from "@polkadot/types";
-
-import { BlockNumber, Balance } from "@polkadot/types/interfaces";
-
-import { MemberId } from "../members";
+import { Text, u32, Enum } from '@polkadot/types';
+import { BlockNumber, Balance } from '@polkadot/types/interfaces';
+import { Registry } from '@polkadot/types/types';
+import { MemberId } from '../members';
 
 export type VotingResults = {
   abstensions: u32;
@@ -46,35 +45,38 @@ export type Proposal = {
 };
 
 export const ProposalStatuses: { [key: string]: string } = {
-  Active: "Active",
-  Cancelled: "Cancelled",
-  Expired: "Expired",
-  Approved: "Approved",
-  Rejected: "Rejected",
-  Slashed: "Slashed"
+  Active: 'Active',
+  Cancelled: 'Cancelled',
+  Expired: 'Expired',
+  Approved: 'Approved',
+  Rejected: 'Rejected',
+  Slashed: 'Slashed'
 };
 
 export class ProposalStatus extends Enum {
-  constructor(value?: any) {
-    super(["Active", "Cancelled", "Expired", "Approved", "Rejected", "Slashed"], value);
+  constructor(registry: Registry, value?: any) {
+    super(registry, ['Active', 'Cancelled', 'Expired', 'Approved', 'Rejected', 'Slashed'], value);
   }
 }
 
 export const VoteKinds: { [key: string]: string } = {
-  Abstain: "Abstain",
-  Approve: "Approve",
-  Reject: "Reject",
-  Slash: "Slash"
+  Abstain: 'Abstain',
+  Approve: 'Approve',
+  Reject: 'Reject',
+  Slash: 'Slash'
 };
 
 export class VoteKind extends Enum {
-  constructor(value?: any) {
-    super(["Abstain", "Approve", "Reject", "Slash"], value);
+  constructor(registry: Registry, value?: any) {
+    super(registry, ['Abstain', 'Approve', 'Reject', 'Slash'], value);
   }
 }
 
 export type ProposalVotes = [MemberId, VoteKind][];
 
-export function registerProposalsTypes(registry) {
-  const blockNumber = createType(registry, "BlockNumber", 12345);
-}
+const proposalTypes = {
+  VoteKind,
+  ProposalStatus
+};
+
+export default proposalTypes;
