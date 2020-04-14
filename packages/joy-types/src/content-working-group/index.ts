@@ -1,19 +1,6 @@
-import {
-  getTypeRegistry,
-  BTreeMap,
-  Enum,
-  bool,
-  u8,
-  u32,
-  u128,
-  Text,
-  GenericAccountId,
-  Null,
-  Option,
-  Vec,
-  u16
-} from "@polkadot/types";
-import { BlockNumber, AccountId, Balance } from "@polkadot/types/interfaces";
+import { BTreeMap, Enum, bool, u8, u32, u128, Text, GenericAccountId, Null, Option, Vec, u16 } from "@polkadot/types";
+import { BlockNumber, Balance } from "@polkadot/types/interfaces";
+import { Registry } from "@polkadot/types/types";
 import { ActorId, MemberId } from "../members";
 import { OpeningId, ApplicationId, ApplicationRationingPolicy, StakingPolicy } from "../hiring/index";
 import { Credential } from "../versioned-store/permissions/credentials";
@@ -36,8 +23,8 @@ export type ChannelContentTypeValue = "Video" | "Music" | "Ebook";
 export const ChannelContentTypeAllValues: ChannelContentTypeValue[] = ["Video", "Music", "Ebook"];
 
 export class ChannelContentType extends Enum {
-  constructor(value?: ChannelContentTypeValue, index?: number) {
-    super(ChannelContentTypeAllValues, value, index);
+  constructor(registry: Registry, value?: ChannelContentTypeValue, index?: number) {
+    super(registry, ChannelContentTypeAllValues, value, index);
   }
 }
 
@@ -46,8 +33,8 @@ export type ChannelPublicationStatusValue = "Public" | "Unlisted";
 export const ChannelPublicationStatusAllValues: ChannelPublicationStatusValue[] = ["Public", "Unlisted"];
 
 export class ChannelPublicationStatus extends Enum {
-  constructor(value?: ChannelPublicationStatusValue, index?: number) {
-    super(ChannelPublicationStatusAllValues, value, index);
+  constructor(registry: Registry, value?: ChannelPublicationStatusValue, index?: number) {
+    super(registry, ChannelPublicationStatusAllValues, value, index);
   }
 }
 
@@ -56,8 +43,8 @@ export type ChannelCurationStatusValue = "Normal" | "Censored";
 export const ChannelCurationStatusAllValues: ChannelCurationStatusValue[] = ["Normal", "Censored"];
 
 export class ChannelCurationStatus extends Enum {
-  constructor(value?: ChannelCurationStatusValue, index?: number) {
-    super(ChannelCurationStatusAllValues, value, index);
+  constructor(registry: Registry, value?: ChannelCurationStatusValue, index?: number) {
+    super(registry, ChannelCurationStatusAllValues, value, index);
   }
 }
 
@@ -70,15 +57,16 @@ export type IChannel = {
   banner: OptionalText;
   content: ChannelContentType;
   owner: MemberId;
-  role_account: AccountId;
+  role_account: GenericAccountId;
   publication_status: ChannelPublicationStatus;
   curation_status: ChannelCurationStatus;
   created: BlockNumber;
   principal_id: PrincipalId;
 };
 export class Channel extends JoyStruct<IChannel> {
-  constructor(value?: IChannel) {
+  constructor(registry: Registry, value?: IChannel) {
     super(
+      registry,
       {
         verified: bool,
         handle: Text, // Vec.with(u8),
@@ -100,8 +88,9 @@ export class Channel extends JoyStruct<IChannel> {
 }
 
 export class CurationActor extends Enum {
-  constructor(value?: any, index?: number) {
+  constructor(registry: Registry, value?: any, index?: number) {
     super(
+      registry,
       {
         Lead: Null,
         Curator: CuratorId
@@ -113,8 +102,9 @@ export class CurationActor extends Enum {
 }
 
 export class Principal extends Enum {
-  constructor(value?: any, index?: number) {
+  constructor(registry: Registry, value?: any, index?: number) {
     super(
+      registry,
       {
         Lead: Null,
         Curator: CuratorId,
@@ -132,8 +122,9 @@ export type ICuratorRoleStakeProfile = {
   exit_unstaking_period: Option<BlockNumber>;
 };
 export class CuratorRoleStakeProfile extends JoyStruct<ICuratorRoleStakeProfile> {
-  constructor(value?: ICuratorRoleStakeProfile) {
+  constructor(registry: Registry, value?: ICuratorRoleStakeProfile) {
     super(
+      registry,
       {
         stake_id: StakeId,
         termination_unstaking_period: Option.with(u32),
@@ -149,8 +140,9 @@ export class CuratorRoleStakeProfile extends JoyStruct<ICuratorRoleStakeProfile>
 }
 
 export class CuratorExitInitiationOrigin extends Enum {
-  constructor(value?: any, index?: number) {
+  constructor(registry: Registry, value?: any, index?: number) {
     super(
+      registry,
       {
         Lead: Null,
         Curator: Null
@@ -167,8 +159,9 @@ export type ICuratorExitSummary = {
   rationale_text: Vec<u8>;
 };
 export class CuratorExitSummary extends JoyStruct<ICuratorExitSummary> {
-  constructor(value?: ICuratorExitSummary) {
+  constructor(registry: Registry, value?: ICuratorExitSummary) {
     super(
+      registry,
       {
         origin: CuratorExitInitiationOrigin,
         initiated_at_block_number: u32,
@@ -185,8 +178,9 @@ export enum CuratorRoleStakeKeys {
   Exited = "Exited"
 }
 export class CuratorRoleStage extends Enum {
-  constructor(value?: any, index?: number) {
+  constructor(registry: Registry, value?: any, index?: number) {
     super(
+      registry,
       {
         [CuratorRoleStakeKeys.Active]: Null,
         [CuratorRoleStakeKeys.Unstaking]: CuratorExitSummary,
@@ -204,8 +198,9 @@ export type ICuratorInduction = {
   at_block: BlockNumber;
 };
 export class CuratorInduction extends JoyStruct<ICuratorInduction> {
-  constructor(value?: ICuratorInduction) {
+  constructor(registry: Registry, value?: ICuratorInduction) {
     super(
+      registry,
       {
         lead: LeadId,
         curator_application_id: CuratorApplicationId,
@@ -229,7 +224,7 @@ export class CuratorInduction extends JoyStruct<ICuratorInduction> {
 }
 
 export type ICurator = {
-  role_account: AccountId;
+  role_account: GenericAccountId;
   reward_relationship: Option<RewardRelationshipId>;
   role_stake_profile: Option<CuratorRoleStakeProfile>;
   stage: CuratorRoleStage;
@@ -237,8 +232,9 @@ export type ICurator = {
   principal_id: PrincipalId;
 };
 export class Curator extends JoyStruct<ICurator> {
-  constructor(value?: ICurator) {
+  constructor(registry: Registry, value?: ICurator) {
     super(
+      registry,
       {
         role_account: GenericAccountId,
         reward_relationship: Option.with(RewardRelationshipId),
@@ -281,14 +277,15 @@ export class Curator extends JoyStruct<ICurator> {
 }
 
 export type ICuratorApplication = {
-  role_account: AccountId;
+  role_account: GenericAccountId;
   curator_opening_id: CuratorOpeningId;
   member_id: MemberId;
   application_id: ApplicationId;
 };
 export class CuratorApplication extends JoyStruct<ICuratorApplication> {
-  constructor(value?: ICuratorApplication) {
+  constructor(registry: Registry, value?: ICuratorApplication) {
     super(
+      registry,
       {
         role_account: GenericAccountId,
         curator_opening_id: CuratorOpeningId,
@@ -321,8 +318,9 @@ export type ISlashableTerms = {
   max_percent_pts_per_time: u16;
 };
 export class SlashableTerms extends JoyStruct<ISlashableTerms> {
-  constructor(value?: ISlashableTerms) {
+  constructor(registry: Registry, value?: ISlashableTerms) {
     super(
+      registry,
       {
         max_count: u16,
         max_percent_pts_per_time: u16
@@ -333,8 +331,9 @@ export class SlashableTerms extends JoyStruct<ISlashableTerms> {
 }
 
 export class SlashingTerms extends Enum {
-  constructor(value?: any, index?: number) {
+  constructor(registry: Registry, value?: any, index?: number) {
     super(
+      registry,
       {
         Unslashable: Null,
         Slashable: SlashableTerms
@@ -360,8 +359,9 @@ export type IOpeningPolicyCommitment = {
   exit_curator_role_stake_unstaking_period: Option<BlockNumber>;
 };
 export class OpeningPolicyCommitment extends JoyStruct<IOpeningPolicyCommitment> {
-  constructor(value?: IOpeningPolicyCommitment) {
+  constructor(registry: Registry, value?: IOpeningPolicyCommitment) {
     super(
+      registry,
       {
         application_rationing_policy: Option.with(ApplicationRationingPolicy),
         max_review_period_length: u32, // BlockNumber,
@@ -436,8 +436,9 @@ export type ICuratorOpening = {
   policy_commitment: OpeningPolicyCommitment;
 };
 export class CuratorOpening extends JoyStruct<ICuratorOpening> {
-  constructor(value?: ICuratorOpening) {
+  constructor(registry: Registry, value?: ICuratorOpening) {
     super(
+      registry,
       {
         opening_id: OpeningId,
         curator_applications: BTreeSet.with(CuratorApplicationId),
@@ -456,8 +457,9 @@ export type IExitedLeadRole = {
   initiated_at_block_number: BlockNumber;
 };
 export class ExitedLeadRole extends JoyStruct<IExitedLeadRole> {
-  constructor(value?: IExitedLeadRole) {
+  constructor(registry: Registry, value?: IExitedLeadRole) {
     super(
+      registry,
       {
         initiated_at_block_number: u32
       },
@@ -467,8 +469,9 @@ export class ExitedLeadRole extends JoyStruct<IExitedLeadRole> {
 }
 
 export class LeadRoleState extends Enum {
-  constructor(value?: any, index?: number) {
+  constructor(registry: Registry, value?: any, index?: number) {
     super(
+      registry,
       {
         Active: Null,
         Exited: ExitedLeadRole
@@ -480,14 +483,15 @@ export class LeadRoleState extends Enum {
 }
 
 export type ILead = {
-  role_account: AccountId;
+  role_account: GenericAccountId;
   reward_relationship: Option<RewardRelationshipId>;
   inducted: BlockNumber;
   stage: LeadRoleState;
 };
 export class Lead extends JoyStruct<ILead> {
-  constructor(value?: ILead) {
+  constructor(registry: Registry, value?: ILead) {
     super(
+      registry,
       {
         role_account: GenericAccountId,
         reward_relationship: Option.with(RewardRelationshipId),
@@ -512,8 +516,9 @@ export class Lead extends JoyStruct<ILead> {
 }
 
 export class WorkingGroupUnstaker extends Enum {
-  constructor(value?: any, index?: number) {
+  constructor(registry: Registry, value?: any, index?: number) {
     super(
+      registry,
       {
         Lead: LeadId,
         Curator: CuratorId
@@ -525,8 +530,8 @@ export class WorkingGroupUnstaker extends Enum {
 }
 
 export class CuratorApplicationIdToCuratorIdMap extends BTreeMap<ApplicationId, CuratorId> {
-  constructor(value?: any, index?: number) {
-    super(ApplicationId, CuratorId, value);
+  constructor(registry: Registry, value?: any, index?: number) {
+    super(registry, ApplicationId, CuratorId, value);
   }
 }
 
@@ -536,8 +541,9 @@ export type IRewardPolicy = {
   payout_interval: Option<BlockNumber>;
 };
 export class RewardPolicy extends JoyStruct<IRewardPolicy> {
-  constructor(value?: IRewardPolicy) {
+  constructor(registry: Registry, value?: IRewardPolicy) {
     super(
+      registry,
       {
         amount_per_payout: u128,
         next_payment_at_block: u32,
@@ -548,33 +554,29 @@ export class RewardPolicy extends JoyStruct<IRewardPolicy> {
   }
 }
 
-export function registerContentWorkingGroupTypes() {
-  try {
-    getTypeRegistry().register({
-      ChannelId: "u64",
-      CuratorId: "u64",
-      CuratorOpeningId: "u64",
-      CuratorApplicationId: "u64",
-      LeadId: "u64",
-      PrincipalId: "u64",
-      OptionalText,
-      Channel,
-      ChannelContentType,
-      ChannelCurationStatus,
-      ChannelPublicationStatus,
-      CurationActor,
-      Curator,
-      CuratorApplication,
-      CuratorOpening,
-      Lead,
-      OpeningPolicyCommitment,
-      Principal,
-      WorkingGroupUnstaker,
-      CuratorApplicationIdToCuratorIdMap,
-      CuratorApplicationIdSet: Vec.with(CuratorApplicationId),
-      RewardPolicy
-    });
-  } catch (err) {
-    console.error("Failed to register custom types of content working group module", err);
-  }
-}
+const contentWorkingGroupTypes = {
+  ChannelId: "u64",
+  CuratorId: "u64",
+  CuratorOpeningId: "u64",
+  CuratorApplicationId: "u64",
+  LeadId: "u64",
+  PrincipalId: "u64",
+  OptionalText,
+  Channel,
+  ChannelContentType,
+  ChannelCurationStatus,
+  ChannelPublicationStatus,
+  CurationActor,
+  Curator,
+  CuratorApplication,
+  CuratorOpening,
+  Lead,
+  OpeningPolicyCommitment,
+  Principal,
+  WorkingGroupUnstaker,
+  CuratorApplicationIdToCuratorIdMap,
+  CuratorApplicationIdSet: Vec.with(CuratorApplicationId),
+  RewardPolicy
+};
+
+export default contentWorkingGroupTypes;

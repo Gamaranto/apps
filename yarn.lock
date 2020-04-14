@@ -2546,7 +2546,7 @@
   dependencies:
     "@types/chrome" "^0.0.91"
 
-"@polkadot/types@^0.96.1":
+"@polkadot/types@^0.96.1", "@polkadot/types@^1.10.1":
   version "0.96.1"
   resolved "https://registry.yarnpkg.com/@polkadot/types/-/types-0.96.1.tgz#84a7123db0ae2922217a0b830a59acb9d83f176f"
   integrity sha512-b8AZBNmMjB0+34Oxue3AYc0gIjDHYCdVGtDpel0omHkLMcEquSvrCniLm+p7g4cfArICiZPFmS9In/OWWdRUVA==
@@ -19415,7 +19415,7 @@ typescript-formatter@^7.2.2:
     commandpost "^1.0.0"
     editorconfig "^0.15.0"
 
-typescript@3.7.x, typescript@^3.0.3, typescript@^3.6.4, typescript@^3.7.2:
+typescript@3.7.x, typescript@^3.0.3, typescript@^3.6.4, typescript@^3.7.2, typescript@^3.8.3:
   version "3.7.2"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.7.2.tgz#27e489b95fa5909445e9fef5ee48d81697ad18fb"
   integrity sha512-ml7V7JfiN2Xwvcer+XAf2csGO1bPBdRbFCkYBczNZggrBZ9c7G3riSUeJmqEU5uOtXNPMhE3n+R4FA/3YOAWOQ==
