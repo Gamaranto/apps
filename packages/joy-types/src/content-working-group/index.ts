@@ -1,26 +1,26 @@
-import { BTreeMap, Enum, bool, u8, u32, u128, Text, GenericAccountId, Null, Option, Vec, u16 } from "@polkadot/types";
-import { BlockNumber, Balance } from "@polkadot/types/interfaces";
-import { Registry } from "@polkadot/types/types";
-import { ActorId, MemberId } from "../members";
-import { OpeningId, ApplicationId, ApplicationRationingPolicy, StakingPolicy } from "../hiring/index";
-import { Credential } from "../versioned-store/permissions/credentials";
-import { RewardRelationshipId } from "../recurring-rewards";
-import { StakeId } from "../stake";
-import { JoyStruct } from "../JoyStruct";
-import { BTreeSet } from "../";
+import { BTreeMap, Enum, bool, u8, u32, u128, Text, GenericAccountId, Null, Option, Vec, u16 } from '@polkadot/types';
+import { BlockNumber, Balance } from '@polkadot/types/interfaces';
+import { Registry } from '@polkadot/types/types';
+import { ActorId, MemberId } from '../members';
+import { OpeningId, ApplicationId, ApplicationRationingPolicy, StakingPolicy } from '../hiring/index';
+import { Credential } from '../versioned-store/permissions/credentials';
+import { RewardRelationshipId } from '../recurring-rewards';
+import { StakeId } from '../stake';
+import { JoyStruct } from '../JoyStruct';
+import { BTreeSet } from '../';
 
-export class ChannelId extends ActorId {}
-export class CuratorId extends ActorId {}
-export class CuratorOpeningId extends OpeningId {}
-export class CuratorApplicationId extends ApplicationId {}
-export class LeadId extends ActorId {}
-export class PrincipalId extends Credential {}
+export class ChannelId extends ActorId { }
+export class CuratorId extends ActorId { }
+export class CuratorOpeningId extends OpeningId { }
+export class CuratorApplicationId extends ApplicationId { }
+export class LeadId extends ActorId { }
+export class PrincipalId extends Credential { }
 
-export class OptionalText extends Option.with(Text) {}
+export class OptionalText extends Option.with(Text) { }
 
-export type ChannelContentTypeValue = "Video" | "Music" | "Ebook";
+export type ChannelContentTypeValue = 'Video' | 'Music' | 'Ebook';
 
-export const ChannelContentTypeAllValues: ChannelContentTypeValue[] = ["Video", "Music", "Ebook"];
+export const ChannelContentTypeAllValues: ChannelContentTypeValue[] = ['Video', 'Music', 'Ebook'];
 
 export class ChannelContentType extends Enum {
   constructor(registry: Registry, value?: ChannelContentTypeValue, index?: number) {
@@ -28,9 +28,9 @@ export class ChannelContentType extends Enum {
   }
 }
 
-export type ChannelPublicationStatusValue = "Public" | "Unlisted";
+export type ChannelPublicationStatusValue = 'Public' | 'Unlisted';
 
-export const ChannelPublicationStatusAllValues: ChannelPublicationStatusValue[] = ["Public", "Unlisted"];
+export const ChannelPublicationStatusAllValues: ChannelPublicationStatusValue[] = ['Public', 'Unlisted'];
 
 export class ChannelPublicationStatus extends Enum {
   constructor(registry: Registry, value?: ChannelPublicationStatusValue, index?: number) {
@@ -38,9 +38,9 @@ export class ChannelPublicationStatus extends Enum {
   }
 }
 
-export type ChannelCurationStatusValue = "Normal" | "Censored";
+export type ChannelCurationStatusValue = 'Normal' | 'Censored';
 
-export const ChannelCurationStatusAllValues: ChannelCurationStatusValue[] = ["Normal", "Censored"];
+export const ChannelCurationStatusAllValues: ChannelCurationStatusValue[] = ['Normal', 'Censored'];
 
 export class ChannelCurationStatus extends Enum {
   constructor(registry: Registry, value?: ChannelCurationStatusValue, index?: number) {
@@ -135,7 +135,7 @@ export class CuratorRoleStakeProfile extends JoyStruct<ICuratorRoleStakeProfile>
   }
 
   get stake_id(): StakeId {
-    return this.getField<StakeId>("stake_id");
+    return this.getField<StakeId>('stake_id');
   }
 }
 
@@ -173,9 +173,9 @@ export class CuratorExitSummary extends JoyStruct<ICuratorExitSummary> {
 }
 
 export enum CuratorRoleStakeKeys {
-  Active = "Active",
-  Unstaking = "Unstaking",
-  Exited = "Exited"
+  Active = 'Active',
+  Unstaking = 'Unstaking',
+  Exited = 'Exited'
 }
 export class CuratorRoleStage extends Enum {
   constructor(registry: Registry, value?: any, index?: number) {
@@ -211,15 +211,15 @@ export class CuratorInduction extends JoyStruct<ICuratorInduction> {
   }
 
   get lead(): LeadId {
-    return this.getField<LeadId>("lead");
+    return this.getField<LeadId>('lead');
   }
 
   get curator_application_id(): CuratorApplicationId {
-    return this.getField<CuratorApplicationId>("curator_application_id");
+    return this.getField<CuratorApplicationId>('curator_application_id');
   }
 
   get at_block(): u32 {
-    return this.getField<u32>("at_block");
+    return this.getField<u32>('at_block');
   }
 }
 
@@ -248,27 +248,27 @@ export class Curator extends JoyStruct<ICurator> {
   }
 
   get role_account(): GenericAccountId {
-    return this.getField<GenericAccountId>("role_account");
+    return this.getField<GenericAccountId>('role_account');
   }
 
   get reward_relationship(): Option<RewardRelationshipId> {
-    return this.getField<Option<RewardRelationshipId>>("reward_relationship");
+    return this.getField<Option<RewardRelationshipId>>('reward_relationship');
   }
 
   get role_stake_profile(): Option<CuratorRoleStakeProfile> {
-    return this.getField<Option<CuratorRoleStakeProfile>>("role_stake_profile");
+    return this.getField<Option<CuratorRoleStakeProfile>>('role_stake_profile');
   }
 
   get stage(): CuratorRoleStage {
-    return this.getField<CuratorRoleStage>("stage");
+    return this.getField<CuratorRoleStage>('stage');
   }
 
   get induction(): CuratorInduction {
-    return this.getField<CuratorInduction>("induction");
+    return this.getField<CuratorInduction>('induction');
   }
 
   get principal_id(): PrincipalId {
-    return this.getField<PrincipalId>("principal_id");
+    return this.getField<PrincipalId>('principal_id');
   }
 
   get is_active(): boolean {
@@ -297,19 +297,19 @@ export class CuratorApplication extends JoyStruct<ICuratorApplication> {
   }
 
   get role_account(): GenericAccountId {
-    return this.getField<GenericAccountId>("role_account");
+    return this.getField<GenericAccountId>('role_account');
   }
 
   get curator_opening_id(): CuratorOpeningId {
-    return this.getField<CuratorOpeningId>("curator_opening_id");
+    return this.getField<CuratorOpeningId>('curator_opening_id');
   }
 
   get member_id(): MemberId {
-    return this.getField<MemberId>("member_id");
+    return this.getField<MemberId>('member_id');
   }
 
   get application_id(): ApplicationId {
-    return this.getField<ApplicationId>("application_id");
+    return this.getField<ApplicationId>('application_id');
   }
 }
 
@@ -381,51 +381,51 @@ export class OpeningPolicyCommitment extends JoyStruct<IOpeningPolicyCommitment>
   }
 
   get application_rationing_policy(): Option<ApplicationRationingPolicy> {
-    return this.getField<Option<ApplicationRationingPolicy>>("application_rationing_policy");
+    return this.getField<Option<ApplicationRationingPolicy>>('application_rationing_policy');
   }
 
   get max_review_period_length(): u32 {
-    return this.getField<u32>("max_review_period_length");
+    return this.getField<u32>('max_review_period_length');
   }
 
   get application_staking_policy(): Option<StakingPolicy> {
-    return this.getField<Option<StakingPolicy>>("application_staking_policy");
+    return this.getField<Option<StakingPolicy>>('application_staking_policy');
   }
 
   get role_staking_policy(): Option<StakingPolicy> {
-    return this.getField<Option<StakingPolicy>>("role_staking_policy");
+    return this.getField<Option<StakingPolicy>>('role_staking_policy');
   }
 
   get role_slashing_terms(): SlashingTerms {
-    return this.getField<SlashingTerms>("role_slashing_terms");
+    return this.getField<SlashingTerms>('role_slashing_terms');
   }
 
   get fill_opening_successful_applicant_application_stake_unstaking_period(): Option<u32> {
-    return this.getField<Option<u32>>("fill_opening_successful_applicant_application_stake_unstaking_period");
+    return this.getField<Option<u32>>('fill_opening_successful_applicant_application_stake_unstaking_period');
   }
 
   get fill_opening_failed_applicant_application_stake_unstaking_period(): Option<u32> {
-    return this.getField<Option<u32>>("fill_opening_failed_applicant_application_stake_unstaking_period");
+    return this.getField<Option<u32>>('fill_opening_failed_applicant_application_stake_unstaking_period');
   }
 
   get fill_opening_failed_applicant_role_stake_unstaking_period(): Option<u32> {
-    return this.getField<Option<u32>>("fill_opening_failed_applicant_role_stake_unstaking_period");
+    return this.getField<Option<u32>>('fill_opening_failed_applicant_role_stake_unstaking_period');
   }
 
   get terminate_curator_application_stake_unstaking_period(): Option<u32> {
-    return this.getField<Option<u32>>("terminate_curator_application_stake_unstaking_period");
+    return this.getField<Option<u32>>('terminate_curator_application_stake_unstaking_period');
   }
 
   get terminate_curator_role_stake_unstaking_period(): Option<u32> {
-    return this.getField<Option<u32>>("terminate_curator_role_stake_unstaking_period");
+    return this.getField<Option<u32>>('terminate_curator_role_stake_unstaking_period');
   }
 
   get exit_curator_role_application_stake_unstaking_period(): Option<u32> {
-    return this.getField<Option<u32>>("exit_curator_role_application_stake_unstaking_period");
+    return this.getField<Option<u32>>('exit_curator_role_application_stake_unstaking_period');
   }
 
   get exit_curator_role_stake_unstaking_period(): Option<u32> {
-    return this.getField<Option<u32>>("exit_curator_role_stake_unstaking_period");
+    return this.getField<Option<u32>>('exit_curator_role_stake_unstaking_period');
   }
 }
 
@@ -449,7 +449,7 @@ export class CuratorOpening extends JoyStruct<ICuratorOpening> {
   }
 
   get opening_id(): OpeningId {
-    return this.getField<OpeningId>("opening_id");
+    return this.getField<OpeningId>('opening_id');
   }
 }
 
@@ -503,15 +503,15 @@ export class Lead extends JoyStruct<ILead> {
   }
 
   get role_account(): GenericAccountId {
-    return this.getField<GenericAccountId>("role_account");
+    return this.getField<GenericAccountId>('role_account');
   }
 
   get reward_relationship(): Option<RewardRelationshipId> {
-    return this.getField<Option<RewardRelationshipId>>("reward_relationship");
+    return this.getField<Option<RewardRelationshipId>>('reward_relationship');
   }
 
   get stage(): LeadRoleState {
-    return this.getField("stage");
+    return this.getField('stage');
   }
 }
 
@@ -555,12 +555,12 @@ export class RewardPolicy extends JoyStruct<IRewardPolicy> {
 }
 
 const contentWorkingGroupTypes = {
-  ChannelId: "u64",
-  CuratorId: "u64",
-  CuratorOpeningId: "u64",
-  CuratorApplicationId: "u64",
-  LeadId: "u64",
-  PrincipalId: "u64",
+  ChannelId: 'u64',
+  CuratorId: 'u64',
+  CuratorOpeningId: 'u64',
+  CuratorApplicationId: 'u64',
+  LeadId: 'u64',
+  PrincipalId: 'u64',
   OptionalText,
   Channel,
   ChannelContentType,

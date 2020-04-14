@@ -1,45 +1,46 @@
-import { getTypeRegistry, u32, u64, u128, Option, GenericAccountId } from '@polkadot/types';
+import { u32, u64, u128, Option, GenericAccountId } from '@polkadot/types';
 import { AccountId, Balance, BlockNumber } from '@polkadot/types/interfaces';
+import { Registry } from '@polkadot/types/types';
 import { JoyStruct } from '../JoyStruct';
 import { MintId } from '../mint';
 
-export class RecipientId extends u64 {};
-export class RewardRelationshipId extends u64 {};
+export class RecipientId extends u64 { }
+export class RewardRelationshipId extends u64 { }
 
 export type IRecipient = {
-  total_reward_received: Balance,
-  total_reward_missed: Balance,
+  total_reward_received: Balance;
+  total_reward_missed: Balance;
 };
 export class Recipient extends JoyStruct<IRecipient> {
-  constructor (value?: IRecipient) {
-    super({
+  constructor(registry: Registry, value?: IRecipient) {
+    super(registry, {
       total_reward_received: u128,
-      total_reward_missed: u128,
+      total_reward_missed: u128
     }, value);
   }
 
   get total_reward_received(): u128 {
-    return this.getField<u128>('total_reward_received')
+    return this.getField<u128>('total_reward_received');
   }
 
   get total_reward_missed(): u128 {
-    return this.getField<u128>('total_reward_missed')
+    return this.getField<u128>('total_reward_missed');
   }
-};
+}
 
 export type IRewardRelationship = {
-  recipient: RecipientId,
-  mint_id: MintId,
-  account: AccountId,
-  amount_per_payout: Balance,
-  next_payment_at_block: Option<BlockNumber>,
-  payout_interval: Option<BlockNumber>,
-  total_reward_received: Balance,
-  total_reward_missed: Balance,
+  recipient: RecipientId;
+  mint_id: MintId;
+  account: AccountId;
+  amount_per_payout: Balance;
+  next_payment_at_block: Option<BlockNumber>;
+  payout_interval: Option<BlockNumber>;
+  total_reward_received: Balance;
+  total_reward_missed: Balance;
 };
 export class RewardRelationship extends JoyStruct<IRewardRelationship> {
-  constructor (value?: IRecipient) {
-    super({
+  constructor(registry: Registry, value?: IRecipient) {
+    super(registry, {
       recipient: RecipientId,
       mint_id: MintId,
       account: GenericAccountId,
@@ -47,24 +48,20 @@ export class RewardRelationship extends JoyStruct<IRewardRelationship> {
       next_payment_at_block: Option.with(u32),
       payout_interval: Option.with(u32),
       total_reward_received: u128,
-      total_reward_missed: u128,
+      total_reward_missed: u128
     }, value);
   }
 
   get recipient(): RecipientId {
-    return this.getField<RecipientId>('recipient')
+    return this.getField<RecipientId>('recipient');
   }
+}
+
+const recurringRewardsTypes = {
+  RecipientId: 'u64',
+  RewardRelationshipId: 'u64',
+  Recipient,
+  RewardRelationship
 };
 
-export function registerRecurringRewardsTypes () {
-    try {
-      getTypeRegistry().register({
-        RecipientId: 'u64',
-        RewardRelationshipId: 'u64',
-        Recipient,
-        RewardRelationship
-      });
-    } catch (err) {
-      console.error('Failed to register custom types of recurring rewards module', err);
-    }
-}
+export default recurringRewardsTypes;
