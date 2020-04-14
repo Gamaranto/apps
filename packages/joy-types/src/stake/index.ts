@@ -1,11 +1,11 @@
-import { getTypeRegistry, u32, u64, u128, Enum, Null, BTreeMap, bool } from "@polkadot/types";
-import { JoyStruct } from "../JoyStruct";
-import { BlockNumber, Balance } from "@polkadot/types/interfaces";
+import { u32, u64, u128, Enum, Null, BTreeMap, bool } from '@polkadot/types';
+import { JoyStruct } from '../JoyStruct';
+import { BlockNumber, Balance } from '@polkadot/types/interfaces';
 
-import { Registry } from "@polkadot/types/types";
+import { Registry } from '@polkadot/types/types';
 
-export class StakeId extends u64 {}
-export class SlashId extends u64 {}
+export class StakeId extends u64 { }
+export class SlashId extends u64 { }
 
 export type ISlash = {
   started_at_block: BlockNumber;
@@ -47,8 +47,8 @@ export class UnstakingState extends JoyStruct<IUnstakingState> {
   }
 }
 
-export class Normal extends Null {}
-export class Unstaking extends UnstakingState {}
+export class Normal extends Null { }
+export class Unstaking extends UnstakingState { }
 export class StakedStatus extends Enum {
   constructor(registry: Registry, value?: any, index?: number) {
     super(
@@ -84,12 +84,12 @@ export class StakedState extends JoyStruct<IStakedState> {
   }
 
   get staked_amount(): u128 {
-    return this.getField<u128>("staked_amount");
+    return this.getField<u128>('staked_amount');
   }
 }
 
-export class NotStaked extends Null {}
-export class Staked extends StakedState {}
+export class NotStaked extends Null { }
+export class Staked extends StakedState { }
 
 export class StakingStatus extends Enum {
   constructor(registry: Registry, value?: any, index?: number) {
@@ -123,16 +123,16 @@ export class Stake extends JoyStruct<IStake> {
   }
 
   get created(): u32 {
-    return this.getField<u32>("created");
+    return this.getField<u32>('created');
   }
 
   get staking_status(): StakingStatus {
-    return this.getField<StakingStatus>("staking_status");
+    return this.getField<StakingStatus>('staking_status');
   }
 
   get value(): Balance {
     switch (this.staking_status.type) {
-      case "Staked":
+      case 'Staked':
         return (this.staking_status.value as Staked).staked_amount;
     }
 
@@ -141,7 +141,7 @@ export class Stake extends JoyStruct<IStake> {
 }
 
 const stakeTypes = {
-  StakeId: "u64",
+  StakeId: 'u64',
   Stake
 };
 
