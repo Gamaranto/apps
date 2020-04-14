@@ -1,4 +1,5 @@
-import { Text, u32, Enum, getTypeRegistry } from "@polkadot/types";
+import { Text, u32, Enum, createType } from "@polkadot/types";
+
 import { BlockNumber, Balance } from "@polkadot/types/interfaces";
 
 import { MemberId } from "../members";
@@ -44,7 +45,6 @@ export type Proposal = {
   votingResults: VotingResults;
 };
 
-// Can this be
 export const ProposalStatuses: { [key: string]: string } = {
   Active: "Active",
   Cancelled: "Cancelled",
@@ -75,28 +75,6 @@ export class VoteKind extends Enum {
 
 export type ProposalVotes = [MemberId, VoteKind][];
 
-export function registerProposalsTypes() {
-  const typeRegistry = getTypeRegistry();
-
-  typeRegistry.register({
-    ProposalStatus,
-    VoteKind
-  });
-  typeRegistry.register({
-    VotingResults: {
-      abstensions: "u32",
-      approvals: "u32",
-      rejections: "u32",
-      slashes: "u32"
-    },
-    Proposal: {
-      proposer_id: "MemberId",
-      stake: "Balance",
-      title: "Text",
-      description: "Text",
-      created_at: "BlockNumber",
-      status: "ProposalStatus",
-      voting_results: "VotingResults"
-    }
-  });
+export function registerProposalsTypes(registry) {
+  const blockNumber = createType(registry, "BlockNumber", 12345);
 }

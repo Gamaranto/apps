@@ -68,24 +68,6 @@ export type SealedVote = {
   vote: Option<AccountId>;
 };
 
-// Note: this could be named 'RuntimeUpgradeProposal' (as it is in Rust),
-// but not a big deal here in JS.
-export type Proposal = {
-  id: u32;
-  proposer: AccountId;
-  stake: Balance;
-  name: Text; // or AnyU8a?
-  description: Text;
-  wasm_hash: Hash;
-  proposed_at: BlockNumber;
-  status: ProposalStatus;
-};
-
-export type ProposalVote = {
-  voter: AccountId;
-  kind: VoteKind;
-};
-
 export type TallyResult = {
   proposal_id: u32;
   abstentions: u32;
