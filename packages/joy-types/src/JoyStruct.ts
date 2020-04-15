@@ -1,5 +1,4 @@
-import { Option, Struct, Enum } from '@polkadot/types/codec';
-import { Text, bool } from '@polkadot/types';
+import { Text, bool, Option, Struct, Enum } from '@polkadot/types';
 import { Codec } from '@polkadot/types/types';
 
 export class JoyStruct<T extends {
