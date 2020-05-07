@@ -1,17 +1,17 @@
-import React from "react"
-import { navigate } from "@reach/router"
+import React from "react";
+import { navigate } from "@reach/router";
 
-import { Banner, ChannelSummary } from "components"
+import { Banner, ChannelSummary } from "@joystream/components";
 
 type ChannelHeaderProps = {
-  img?: string
-  name: string
-  banner?: string
-  isPublic?: boolean
-  isVerified?: boolean
-  description?: string
-  channelUrl?: string
-}
+  img?: string;
+  name: string;
+  banner?: string;
+  isPublic?: boolean;
+  isVerified?: boolean;
+  description?: string;
+  channelUrl?: string;
+};
 
 function ChannelHeader({
   img,
@@ -20,7 +20,7 @@ function ChannelHeader({
   description,
   name,
   banner,
-  channelUrl,
+  channelUrl
 }: ChannelHeaderProps) {
   return (
     <>
@@ -35,7 +35,7 @@ function ChannelHeader({
         onClick={() => navigate(channelUrl)}
       />
     </>
-  )
+  );
 }
 
-export default ChannelHeader
+export default ChannelHeader;

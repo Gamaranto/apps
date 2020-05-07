@@ -1,0 +1,10 @@
+{
+  "name": "test-parcel",
+  "version": "1.0.0",
+  "main": "src/index.tsx",
+  "author": "Gamaranto",
+  "scripts": {
+    "start": "parcel public/index.html"
+  },
+  "license": "MIT"
+}

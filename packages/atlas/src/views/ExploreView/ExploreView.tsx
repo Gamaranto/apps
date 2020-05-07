@@ -1,30 +1,29 @@
-import React, { useState, useEffect } from "react"
-import { RouteComponentProps, navigate } from "@reach/router"
-import { GenericSection, VideoPreview, ChannelSummary, Grid } from "components"
-import { useTransportContext } from './../../providers/TransportContext'
-import { useMyMembership } from '@polkadot/joy-utils/MyMembershipContext';
+import React, { useState, useEffect } from "react";
+import { RouteComponentProps, navigate } from "@reach/router";
+import { GenericSection, VideoPreview, ChannelSummary, Grid } from "@joystream/components";
+import { useTransportContext } from "@polkadot/joy-media/src/TransportContext";
+import { useMyMembership } from "@polkadot/joy-utils/src/MyMembershipContext";
 
-type ExploreViewProps = {} & RouteComponentProps
+type ExploreViewProps = {} & RouteComponentProps;
 
 export default function ExploreView({}: ExploreViewProps) {
-
-  let allVideos: any[] = []
-  let allChannels: any[] = []
-  let channels: any[] = []
+  let allVideos: any[] = [];
+  let allChannels: any[] = [];
+  let channels: any[] = [];
 
   const transport = useTransportContext();
   const { myAddress, myMemberId } = useMyMembership();
-  const resolverProps = { transport, myAddress, myMemberId }
-  
-  const [ resolvedProps, setResolvedProps ] = useState({} as any);
-  const [ propsResolved, setPropsResolved ] = useState(false);
+  const resolverProps = { transport, myAddress, myMemberId };
 
-  const rerenderDeps = [ myAddress ]
+  const [resolvedProps, setResolvedProps] = useState({} as any);
+  const [propsResolved, setPropsResolved] = useState(false);
+
+  const rerenderDeps = [myAddress];
 
   // useEffect(() => {
 
   //   async function doResolveProps () {
-      
+
   //     console.log('Resolving props of media view');
 
   //     // Transport session allows us to cache loaded channels, entites and classes
@@ -45,28 +44,24 @@ export default function ExploreView({}: ExploreViewProps) {
   // }, rerenderDeps);
 
   const resolveProps = async ({ transport }) => {
-    const [
-      latestVideoChannels,
-      latestVideos,
-      featuredVideos
-    ] = await Promise.all([
+    const [latestVideoChannels, latestVideos, featuredVideos] = await Promise.all([
       transport.latestPublicVideoChannels(),
       transport.latestPublicVideos(),
       transport.featuredVideos()
-    ])
+    ]);
 
-    return { featuredVideos, latestVideos, latestVideoChannels }
-  }
+    return { featuredVideos, latestVideos, latestVideoChannels };
+  };
 
-  if (!propsResolved) return null
-  
+  if (!propsResolved) return null;
+
   return (
     <>
       <GenericSection topDivider title="Latest Videos" linkText="All Videos" onLinkClick={() => {}}>
         <Grid
           minItemWidth="250"
           items={allVideos.map((video, idx) => {
-            let { img: channelImg } = channels[video.channel] || ""
+            let { img: channelImg } = channels[video.channel] || "";
             return (
               <VideoPreview
                 key={`${video.title}-${idx}`}
@@ -78,7 +73,7 @@ export default function ExploreView({}: ExploreViewProps) {
                 onClick={() => navigate(`videos/${idx}`)}
                 onChannelClick={() => navigate(`channels/${video.channel}`)}
               />
-            )
+            );
           })}
         />
       </GenericSection>
@@ -98,5 +93,5 @@ export default function ExploreView({}: ExploreViewProps) {
         </div>
       </GenericSection>
     </>
-  )
+  );
 }

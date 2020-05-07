@@ -1,17 +1,17 @@
-import React from "react"
-import { RouteComponentProps, useParams, navigate } from "@reach/router"
-import { GenericSection, VideoPreview, Grid } from "components"
-import ChannelHeader from "./../../components/ChannelHeader"
+import React from "react";
+import { RouteComponentProps, useParams, navigate } from "@reach/router";
+import { GenericSection, VideoPreview, Grid } from "@joystream/components";
+import ChannelHeader from "./../../components/ChannelHeader";
 
 type ChannelProps = {
-  name: string
-  isPublic?: boolean
-  isVerified?: boolean
-  description?: string
-  banner?: string
-  videos?: any[]
-  img: string
-}
+  name: string;
+  isPublic?: boolean;
+  isVerified?: boolean;
+  description?: string;
+  banner?: string;
+  videos?: any[];
+  img: string;
+};
 
 function ChannelComponent({
   name,
@@ -20,7 +20,7 @@ function ChannelComponent({
   description,
   banner,
   videos,
-  img,
+  img
 }: ChannelProps) {
   return (
     <>
@@ -48,17 +48,17 @@ function ChannelComponent({
         />
       </GenericSection>
     </>
-  )
+  );
 }
 
 type RouteProps = {
-  videos: any
-  channels: any
-} & RouteComponentProps
+  videos: any;
+  channels: any;
+} & RouteComponentProps;
 
 export default function Channel({ videos, channels }: RouteProps) {
-  let params = useParams()
-  let channelVideos = videos[params.channelName]
-  let channel = channels[params.channelName]
-  return <ChannelComponent {...channel} videos={channelVideos} />
+  let params = useParams();
+  let channelVideos = videos[params.channelName];
+  let channel = channels[params.channelName];
+  return <ChannelComponent {...channel} videos={channelVideos} />;
 }

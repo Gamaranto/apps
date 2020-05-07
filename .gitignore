@@ -1,9 +1,11 @@
 build/
+dist/
 coverage/
 node_modules/
 tmp/
 .idea/
 .vscode/
+.cache
 .DS_Store
 .env.local
 .env.development.local
